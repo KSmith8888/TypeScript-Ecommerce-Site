@@ -6,16 +6,24 @@ class Player {
         this.money = 100;
         this.currentBet = 0;
         this.aceOverage = 0;
-        this.totalMoneyText = document.querySelector('#total-money-text');
-        this.bet5Btn = document.querySelector('#bet-5-button');
-        this.bet10Btn = document.querySelector('#bet-10-button');
-        this.bet25Btn = document.querySelector('#bet-25-button');
-        this.bet50Btn = document.querySelector('#bet-50-button');
+        this.totalMoneyText = document.querySelector("#total-money-text");
+        this.bet5Btn = document.querySelector("#bet-5-button");
+        this.bet10Btn = document.querySelector("#bet-10-button");
+        this.bet25Btn = document.querySelector("#bet-25-button");
+        this.bet50Btn = document.querySelector("#bet-50-button");
         this.game = game;
-        this.bet5Btn.addEventListener('click', () => { this.bet(5); });
-        this.bet10Btn.addEventListener('click', () => { this.bet(10); });
-        this.bet25Btn.addEventListener('click', () => { this.bet(25); });
-        this.bet50Btn.addEventListener('click', () => { this.bet(50); });
+        this.bet5Btn.addEventListener("click", () => {
+            this.bet(5);
+        });
+        this.bet10Btn.addEventListener("click", () => {
+            this.bet(10);
+        });
+        this.bet25Btn.addEventListener("click", () => {
+            this.bet(25);
+        });
+        this.bet50Btn.addEventListener("click", () => {
+            this.bet(50);
+        });
     }
     bet(amount) {
         if (this.money >= amount) {

@@ -7,43 +7,39 @@ class Game {
         this.deck = new Deck();
         this.player = new Player(this);
         this.dealer = new Dealer();
-        this.playerScoreText = document.querySelector("#player-score");
-        this.playerSection = document.querySelector("#player-section");
-        this.dealerScoreText = document.querySelector("#dealer-score");
-        this.dealerSection = document.querySelector("#dealer-section");
-        this.resetSection = document.querySelector("#reset-section");
-        this.hitButton = document.querySelector("#hit-button");
-        this.stayButton = document.querySelector("#stay-button");
-        this.doubleDownBtn = document.querySelector("#double-down-button");
-        this.gameResultText = document.querySelector("#game-result-text");
+        this.playerScoreText = (document.querySelector("#player-score"));
+        this.playerSection = (document.querySelector("#player-section"));
+        this.dealerScoreText = (document.querySelector("#dealer-score"));
+        this.dealerSection = (document.querySelector("#dealer-section"));
+        this.resetSection = (document.querySelector("#reset-section"));
+        this.hitButton = (document.querySelector("#hit-button"));
+        this.stayButton = (document.querySelector("#stay-button"));
+        this.doubleDownBtn = (document.querySelector("#double-down-button"));
+        this.gameResultText = (document.querySelector("#game-result-text"));
         this.dealerFaceDownCard = document.createElement("div");
         this.dealerFaceDownCard.id = "dealer-face-down-card";
         this.dealerFaceDownCard.classList.add("blank-card-container");
-        this.rulesModal = document.querySelector("#rules-modal");
-        this.openRulesBtn = document.querySelector("#open-rules-button");
-        this.closeRulesBtn = document.querySelector("#close-rules-button");
+        this.rulesModal = (document.querySelector("#rules-modal"));
+        this.openRulesBtn = (document.querySelector("#open-rules-button"));
+        this.closeRulesBtn = (document.querySelector("#close-rules-button"));
         this.dealCardSound = new Audio("./assets/audio/deal-card-sound.wav");
         this.dealCardSound.volume = 0.5;
         this.topPayout = document.querySelector("#top-payout");
-        (_a = this.hitButton) === null || _a === void 0
-            ? void 0
-            : _a.addEventListener("click", () => {
-                  this.disableSelections();
-                  setTimeout(() => {
-                      this.dealCardSound.play().catch((err) => {
-                          console.error(err);
-                      });
-                      this.drawCard(this.player, this.playerSection);
-                      if (
-                          this.player.total <= 21 &&
-                          this.hitButton &&
-                          this.stayButton
-                      ) {
-                          this.hitButton.disabled = false;
-                          this.stayButton.disabled = false;
-                      }
-                  }, 750);
-              });
+        (_a = this.hitButton) === null || _a === void 0 ? void 0 : _a.addEventListener("click", () => {
+            this.disableSelections();
+            setTimeout(() => {
+                this.dealCardSound.play().catch((err) => {
+                    console.error(err);
+                });
+                this.drawCard(this.player, this.playerSection);
+                if (this.player.total <= 21 &&
+                    this.hitButton &&
+                    this.stayButton) {
+                    this.hitButton.disabled = false;
+                    this.stayButton.disabled = false;
+                }
+            }, 750);
+        });
         this.stayButton.addEventListener("click", () => {
             this.disableSelections();
             this.initiateDealerTurn();
@@ -82,9 +78,7 @@ class Game {
             this.drawCard(this.player, this.playerSection);
             this.drawCard(this.player, this.playerSection);
             this.drawCard(this.dealer, this.dealerSection);
-            (_a = this.dealerSection) === null || _a === void 0
-                ? void 0
-                : _a.append(this.dealerFaceDownCard);
+            (_a = this.dealerSection) === null || _a === void 0 ? void 0 : _a.append(this.dealerFaceDownCard);
             this.dealerFaceDownCard.style.display = "block";
         }, 750);
     }
@@ -94,7 +88,8 @@ class Game {
             case "A":
                 if (currentTurn.total + 11 > 21) {
                     currentTurn.total += 1;
-                } else {
+                }
+                else {
                     currentTurn.total += 11;
                     currentTurn.aceOverage += 10;
                 }
@@ -107,13 +102,12 @@ class Game {
             default:
                 currentTurn.total += numericValueRank;
         }
-        if (
-            this.player.total > 21 &&
+        if (this.player.total > 21 &&
             this.player.aceOverage === 0 &&
-            currentTurn === this.player
-        ) {
+            currentTurn === this.player) {
             this.checkTotals();
-        } else if (currentTurn.total > 21 && currentTurn.aceOverage > 0) {
+        }
+        else if (currentTurn.total > 21 && currentTurn.aceOverage > 0) {
             currentTurn.total -= 10;
             currentTurn.aceOverage -= 10;
         }
@@ -132,7 +126,8 @@ class Game {
                     console.error(err);
                 });
                 this.drawCard(this.dealer, this.dealerSection);
-            } else {
+            }
+            else {
                 clearInterval(continueDrawing);
                 this.checkTotals();
             }
@@ -202,34 +197,32 @@ class Game {
         if (this.player.total > 21) {
             if (this.player.money > 0) {
                 this.endGame("You lose, better luck next time!", false);
-            } else {
-                this.player.money = 100;
-                this.endGame(
-                    "Game over, you ran out of money! Restart with $100?",
-                    true
-                );
             }
-        } else if (this.dealer.total > 21) {
+            else {
+                this.player.money = 100;
+                this.endGame("Game over, you ran out of money! Restart with $100?", true);
+            }
+        }
+        else if (this.dealer.total > 21) {
             this.player.money += this.player.currentBet * 2;
             this.endGame("You win, well done!", false);
-        } else {
+        }
+        else {
             if (this.player.total > this.dealer.total) {
                 this.player.money += this.player.currentBet * 2;
                 this.endGame("You win, well done!", false);
-            } else if (this.player.total === this.dealer.total) {
+            }
+            else if (this.player.total === this.dealer.total) {
                 this.player.money += this.player.currentBet;
                 this.endGame("Push. Try again?", false);
-            } else if (
-                this.player.total < this.dealer.total &&
-                this.player.money > 0
-            ) {
+            }
+            else if (this.player.total < this.dealer.total &&
+                this.player.money > 0) {
                 this.endGame("You lose, better luck next time!", false);
-            } else {
+            }
+            else {
                 this.player.money = 100;
-                this.endGame(
-                    "Game over, you ran out of money! Restart with $100?",
-                    true
-                );
+                this.endGame("Game over, you ran out of money! Restart with $100?", true);
             }
         }
         this.player.totalMoneyText.textContent = this.player.money.toString();
@@ -241,7 +234,8 @@ class Game {
         const startNewGameBtn = document.createElement("button");
         if (!isGameOver) {
             startNewGameBtn.textContent = "New Hand";
-        } else {
+        }
+        else {
             startNewGameBtn.textContent = "Start New Game";
         }
         startNewGameBtn.classList.add("start-new-game-btn");
@@ -254,22 +248,17 @@ class Game {
     determineHighScore() {
         if (localStorage.getItem("high-score") !== null) {
             const highScore = localStorage.getItem("high-score");
-            if (
-                highScore !== null &&
-                this.player.money > parseInt(JSON.parse(highScore), 10)
-            ) {
-                localStorage.setItem(
-                    "high-score",
-                    JSON.stringify(this.player.money)
-                );
+            if (highScore !== null &&
+                this.player.money > parseInt(JSON.parse(highScore), 10)) {
+                localStorage.setItem("high-score", JSON.stringify(this.player.money));
                 this.topPayout.textContent = this.player.money.toString();
-            } else if (
-                highScore !== null &&
-                this.player.money < parseInt(JSON.parse(highScore), 10)
-            ) {
+            }
+            else if (highScore !== null &&
+                this.player.money < parseInt(JSON.parse(highScore), 10)) {
                 this.topPayout.textContent = JSON.parse(highScore);
             }
-        } else {
+        }
+        else {
             localStorage.setItem("high-score", JSON.stringify(100));
         }
     }
